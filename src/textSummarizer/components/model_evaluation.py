@@ -1,11 +1,9 @@
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
-from transformers import PegasusForConditionalGeneration, PegasusTokenizer
 from datasets import load_dataset, load_from_disk, load_metric
 import torch
 import pandas as pd
 from tqdm import tqdm
 from textSummarizer.entity import ModelEvaluationConfig
-
 
 
 
@@ -60,7 +58,7 @@ class ModelEvaluation:
     def evaluate(self):
         device = "cuda" if torch.cuda.is_available() else "cpu"
         tokenizer = AutoTokenizer.from_pretrained(self.config.tokenizer_path)
-        model_pegasus = PegasusForConditionalGeneration.from_pretrained(self.config.model_path).to(device)
+        model_pegasus = AutoModelForSeq2SeqLM.from_pretrained(self.config.model_path).to(device)
        
         #loading data 
         dataset_samsum_pt = load_from_disk(self.config.data_path)
